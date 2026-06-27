@@ -1,16 +1,18 @@
 import { Lighting } from "./Lighting";
 import { WorldStream } from "./WorldStream";
-import { InteriorCar } from "./InteriorCar";
+import { BattleCar } from "./BattleCar";
+import { RoofDeck } from "./RoofDeck";
 
-/** §19.A (b) — one walkable carriage interior; the streaming world shows through windows. */
+/** §19.A (b) — a large open battle-carriage + walkable roof; the world streams past outside. */
 export function InteriorScene() {
   return (
     <group>
       <Lighting />
       <WorldStream />
-      {/* raise the deck to train height so windows look out at the horizon */}
-      <group position={[0, 0.6, 0]}>
-        <InteriorCar />
+      {/* raise to train-deck height so windows + roof look out over the world */}
+      <group position={[0, 0.8, 0]}>
+        <BattleCar />
+        <RoofDeck />
       </group>
     </group>
   );

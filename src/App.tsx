@@ -5,13 +5,20 @@ import { useStore } from "./store";
 import { QualityController } from "./engine/QualityController";
 import { ExteriorScene } from "./scene/ExteriorScene";
 import { InteriorScene } from "./scene/InteriorScene";
+import { SceneEnvironment } from "./scene/SceneEnvironment";
+import { ExploreControls } from "./controls/ExploreControls";
 import { PostFX } from "./post/PostFX";
 import { ControlPanel } from "./ui/ControlPanel";
 import { PerfHud } from "./ui/PerfHud";
 
 const VIEWS = {
   exterior: { pos: [24, 11, -22] as const, tgt: [0, 3, 16] as const },
-  interior: { pos: [0, 2.5, 8] as const, tgt: [0, 1.9, -4] as const },
+  interior: { pos: [1.5, 2.7, 13] as const, tgt: [-0.3, 1.6, -9] as const },
+};
+
+const EXPLORE_START = {
+  exterior: [16, 5, -12] as [number, number, number],
+  interior: [0, 2.6, 11] as [number, number, number],
 };
 
 /** Camera + orbit controls; re-frames on scene change. Orbit is the §19.C turntable. */
@@ -49,6 +56,7 @@ function Rig() {
 export function App() {
   const scene = useStore((s) => s.scene);
   const photoMode = useStore((s) => s.photoMode);
+  const control = useStore((s) => s.control);
   const toggle = useStore((s) => s.toggle);
 
   return (
@@ -62,7 +70,8 @@ export function App() {
         <color attach="background" args={["#bcd8f5"]} />
         <fog attach="fog" args={["#cfe2f5", 120, 640]} />
         <QualityController />
-        <Rig />
+        <SceneEnvironment />
+        {control === "orbit" ? <Rig /> : <ExploreControls start={EXPLORE_START[scene]} />}
         {scene === "exterior" ? <ExteriorScene /> : <InteriorScene />}
         <PostFX />
       </Canvas>

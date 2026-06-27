@@ -1,9 +1,13 @@
-import { useStore, type SceneId, type Tier } from "../store";
+import { useStore, type SceneId, type Tier, type ControlMode } from "../store";
 import { TIERS } from "../engine/quality";
 
 const SCENES: { id: SceneId; label: string }[] = [
   { id: "exterior", label: "Exterior" },
   { id: "interior", label: "Interior" },
+];
+const CAMERAS: { id: ControlMode; label: string }[] = [
+  { id: "orbit", label: "Orbit" },
+  { id: "fly", label: "Explore" },
 ];
 const TIER_IDS: Tier[] = ["low", "mid", "high", "ultra"];
 
@@ -50,6 +54,11 @@ export function ControlPanel() {
       </div>
 
       <div className="row">
+        <label>Camera</label>
+        <Seg value={s.control} options={CAMERAS} onChange={s.setControl} />
+      </div>
+
+      <div className="row">
         <label>Quality tier</label>
         <Seg
           value={s.tier}
@@ -63,10 +72,11 @@ export function ControlPanel() {
 
       <div className="row">
         <label>Post FX</label>
+        <Check label="Ambient occlusion" value={s.ao} onChange={() => s.toggle("ao")} />
         <Check label="Bloom" value={s.bloom} onChange={() => s.toggle("bloom")} />
         <Check label="Vignette" value={s.vignette} onChange={() => s.toggle("vignette")} />
         <Check label="Film grain" value={s.grain} onChange={() => s.toggle("grain")} />
-        {s.scene === "exterior" && (
+        {s.scene === "exterior" && s.control === "orbit" && (
           <Check label="Auto-rotate" value={s.autoRotate} onChange={() => s.toggle("autoRotate")} />
         )}
       </div>
@@ -112,8 +122,12 @@ export function ControlPanel() {
       </div>
 
       <p className="hint">
-        Drag to orbit · scroll to zoom. <b>*Ultra</b> is native-Steam-only in the plan (selectable here to
-        compare). Art is procedural grey-box — this validates lighting/post/streaming, not final assets.
+        {s.control === "orbit" ? (
+          <>Drag to orbit · scroll to zoom.</>
+        ) : (
+          <><b>Explore:</b> click to look · <b>WASD</b> move · <b>Space/C</b> up/down · <b>Shift</b> sprint · <b>Esc</b> release.</>
+        )}{" "}
+        <b>*Ultra</b> is native-Steam-only in the plan (selectable here to compare). Art is procedural grey-box.
       </p>
     </div>
   );
