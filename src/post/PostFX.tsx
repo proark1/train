@@ -35,9 +35,9 @@ export function PostFX() {
         key="ao"
         aoRadius={1.4}
         distanceFalloff={1.0}
-        intensity={3.2}
+        intensity={3.0}
         color="#0a0a14"
-        halfRes={tier !== "ultra"}
+        halfRes={false}
         quality={tier === "ultra" ? "high" : "medium"}
       />
     );

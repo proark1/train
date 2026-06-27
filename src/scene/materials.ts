@@ -1,3 +1,5 @@
+import * as THREE from "three";
+
 /**
  * Shared material prop-spreads for a consistent, less-"cheap" look: physically-plausible
  * metal/plastic/glass that the §SceneEnvironment IBL can reflect. Spread into
@@ -19,10 +21,12 @@ export const RUST = { color: "#8a5a3a", metalness: 0.3, roughness: 0.8 };
 export const GLASS = {
   color: "#bfe6ff",
   metalness: 0.0,
-  roughness: 0.06,
+  roughness: 0.08,
   transparent: true,
-  opacity: 0.16,
-  envMapIntensity: 2.0,
+  opacity: 0.2,
+  depthWrite: false, // transparent surfaces must not write depth (avoids ghost/double + sort artifacts)
+  side: THREE.DoubleSide, // one quad visible from both sides (no front+back double-face)
+  envMapIntensity: 1.2,
 };
 
 export const emissive = (color: string, intensity = 2) => ({

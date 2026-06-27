@@ -64,7 +64,7 @@ export function App() {
       <Canvas
         shadows
         dpr={[1, 2]}
-        camera={{ fov: 50, near: 0.1, far: 1600, position: [24, 11, -22] }}
+        camera={{ fov: 50, near: 0.3, far: 1300, position: [24, 11, -22] }}
         gl={{ antialias: false, powerPreference: "high-performance", stencil: false }}
       >
         <color attach="background" args={["#bcd8f5"]} />

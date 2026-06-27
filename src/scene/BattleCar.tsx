@@ -39,10 +39,10 @@ function SideWall({ side }: { side: 1 | -1 }) {
       <RoundedBox args={[0.22, 0.75, CAR_LEN]} radius={0.04} smoothness={2} position={[x, 2.95, 0]} castShadow receiveShadow>
         <meshStandardMaterial {...PANEL_DARK} />
       </RoundedBox>
-      {/* window glass per bay */}
+      {/* window glass per bay (single quad — no front+back double-face) */}
       {bayZs.map((z, i) => (
-        <mesh key={`g${i}`} position={[x + side * 0.02, 1.95, z]}>
-          <boxGeometry args={[0.06, 1.15, 2.5]} />
+        <mesh key={`g${i}`} position={[x, 1.95, z]} rotation={[0, Math.PI / 2, 0]}>
+          <planeGeometry args={[2.5, 1.15]} />
           <meshStandardMaterial {...GLASS} />
         </mesh>
       ))}
